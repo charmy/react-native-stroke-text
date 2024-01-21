@@ -1,0 +1,32 @@
+{
+  "name": "@charmy.tech/react-native-stroke-text",
+  "version": "1.0.0",
+  "description": "React Native Stroke/Outline Text",
+  "main": "build/index.js",
+  "source": "./src/",
+  "author": "Charmy Inc. (https://github.com/charmy)",
+  "license": "MIT",
+  "homepage": "https://github.com/charmy/react-native-stroke-text#readme",
+  "repository": "https://github.com/charmy/react-native-stroke-text",
+  "bugs": {
+    "url": "https://github.com/charmy/react-native-stroke-text"
+  },
+  "keywords": [
+    "react-native",
+    "stroke",
+    "text",
+    "outline"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/runtime": "^7.21.0",
+    "@types/node": "^18.15.3",
+    "@types/react": "^18.0.28",
+    "@types/react-native": "^0.71.3",
+    "prettier": "^2.8.5",
+    "typescript": "^5.0.2"
+  }
+}
