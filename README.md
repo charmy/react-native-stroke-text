@@ -15,18 +15,22 @@ npm install @charmy.tech/react-native-stroke-text
 yarn add @charmy.tech/react-native-stroke-text
 ```
 
+Go to your ios folder and run:
+```
+pod install
+```
+
 ## Usage
 Here's a quick example to get you started with StrokeText:
 
 ```jsx
 import React from "react";
 import { StrokeText } from "@charmy.tech/react-native-stroke-text";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
 
 export default function Screen() {
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <StrokeText
         text="Test"
         fontSize={50}
@@ -35,7 +39,7 @@ export default function Screen() {
         strokeWidth={20}
         fontFamily="Nunito-Black"
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
