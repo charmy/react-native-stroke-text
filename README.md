@@ -3,7 +3,7 @@
 Allows you to add stylish text with stroke effects to your mobile applications. It is perfect for creating visually appealing text elements with outline effects.
 
 <h1 align="center">
-  <img width="450" src="docs/example.png"/>
+  <img width="450" src="docs/example.jpeg"/>
 </h1>
 
 
