@@ -1,6 +1,6 @@
 {
   "name": "@charmy.tech/react-native-stroke-text",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native Stroke/Outline Text",
   "main": "build/index.js",
   "source": "./src/",
