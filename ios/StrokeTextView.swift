@@ -1,32 +1,32 @@
-import UIKit
 import Foundation
+import UIKit
 
 class StrokeTextView: RCTView {
     public var label: StrokedTextLabel
     weak var bridge: RCTBridge?
-    
+
     init(bridge: RCTBridge) {
         label = StrokedTextLabel()
         self.bridge = bridge
         super.init(frame: .zero)
-      
+
         label.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(label)
+        addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    self.bridge?.uiManager.setSize(label.intrinsicContentSize, for: self)
-  }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        bridge?.uiManager.setSize(label.intrinsicContentSize, for: self)
     }
 
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     @objc var text: String = "" {
         didSet {
@@ -36,7 +36,7 @@ class StrokeTextView: RCTView {
 
     @objc var fontSize: NSNumber = 14 {
         didSet {
-            label.font = label.font.withSize(CGFloat(truncating: fontSize))
+            updateFont()
         }
     }
 
@@ -60,12 +60,42 @@ class StrokeTextView: RCTView {
 
     @objc var fontFamily: String = "Helvetica" {
         didSet {
-            if let font = UIFont(name: fontFamily, size: CGFloat(truncating: fontSize)) {
-                label.font = font
-            }
+            updateFont()
         }
     }
 
+    @objc var fontWeight: String = "Regular" {
+        didSet {
+            updateFont()
+        }
+    }
+
+    private func updateFont() {
+        let fontSizeValue = CGFloat(truncating: fontSize)
+        var finalFont: UIFont?
+
+        let weight: UIFont.Weight
+        switch fontWeight.lowercased() {
+        case "ultralight": weight = .ultraLight
+        case "thin": weight = .thin
+        case "light": weight = .light
+        case "regular": weight = .regular
+        case "medium": weight = .medium
+        case "semibold": weight = .semibold
+        case "bold": weight = .bold
+        case "heavy": weight = .heavy
+        case "black": weight = .black
+        default: weight = .regular // Fallback to regular if no match found
+        }
+
+        if let font = UIFont(name: fontFamily, size: fontSizeValue) {
+            finalFont = font
+        } else {
+            finalFont = UIFont.systemFont(ofSize: fontSizeValue, weight: weight)
+        }
+
+        label.font = finalFont
+    }
 
     private func hexStringToUIColor(hexColor: String) -> UIColor {
         var cString: String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

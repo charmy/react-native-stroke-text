@@ -3,6 +3,17 @@ import { requireNativeComponent } from "react-native";
 
 const ComponentName = "StrokeTextView";
 
+export type FontWeight =
+  | "ultraLight"
+  | "thin"
+  | "light"
+  | "regular"
+  | "medium"
+  | "semibold"
+  | "bold"
+  | "heavy"
+  | "black";
+
 export interface StrokeTextProps {
   text: string;
   fontSize?: number;
@@ -10,6 +21,7 @@ export interface StrokeTextProps {
   strokeColor?: string;
   strokeWidth?: number;
   fontFamily?: string;
+  fontWeight?: FontWeight;
 }
 
 const NativeStrokeText = requireNativeComponent<StrokeTextProps>(ComponentName);
