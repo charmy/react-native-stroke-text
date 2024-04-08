@@ -1,6 +1,6 @@
 {
   "name": "@bitphinix/react-native-stroke-text",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React Native Stroke/Outline Text",
   "main": "build/index.js",
   "source": "./src/",

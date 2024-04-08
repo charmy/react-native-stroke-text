@@ -58,7 +58,7 @@ class StrokeTextView: RCTView {
         }
     }
 
-    @objc var fontFamily: String = "Helvetica" {
+    @objc var fontFamily: String? {
         didSet {
             updateFont()
         }
@@ -72,7 +72,10 @@ class StrokeTextView: RCTView {
 
     private func updateFont() {
         let fontSizeValue = CGFloat(truncating: fontSize)
-        var finalFont: UIFont?
+        if let family = fontFamily, let font = UIFont(name: family, size: fontSizeValue) {
+            label.font = font
+            return
+        }
 
         let weight: UIFont.Weight
         switch fontWeight.lowercased() {
@@ -88,13 +91,7 @@ class StrokeTextView: RCTView {
         default: weight = .regular // Fallback to regular if no match found
         }
 
-        if let font = UIFont(name: fontFamily, size: fontSizeValue) {
-            finalFont = font
-        } else {
-            finalFont = UIFont.systemFont(ofSize: fontSizeValue, weight: weight)
-        }
-
-        label.font = finalFont
+        label.font = UIFont.systemFont(ofSize: fontSizeValue, weight: weight)
     }
 
     private func hexStringToUIColor(hexColor: String) -> UIColor {
