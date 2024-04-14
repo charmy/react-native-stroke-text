@@ -10,7 +10,7 @@ export interface StrokeTextProps {
   strokeColor?: string;
   strokeWidth?: number;
   fontFamily?: string;
-  style: ViewStyle;
+  style?: ViewStyle;
 }
 
 const NativeStrokeText = requireNativeComponent<StrokeTextProps>(ComponentName);
