@@ -1,56 +1,41 @@
 import UIKit
-import Foundation
 
 class StrokedTextLabel: UILabel {
-
-
-    var outlineWidth: CGFloat = 0 {
-        didSet {
-            setNeedsLayout()
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    var outlineColor: UIColor = .clear {
-        didSet {
-            setNeedsLayout()
-        }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.numberOfLines = 0
     }
 
-    var align: NSTextAlignment = .center {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+    var outlineWidth: CGFloat = 0
+    var outlineColor: UIColor = .clear
+    var align: NSTextAlignment = .center
+    var customWidth: CGFloat = 0
+    var ellipsis: Bool = false
 
     override func drawText(in rect: CGRect) {
-        // Enable multiline
-        self.numberOfLines = 0
-
         let shadowOffset = self.shadowOffset
         let textColor = self.textColor
 
-        // Adjust the text drawing area to accommodate the outline width
+        self.lineBreakMode = ellipsis ? .byTruncatingTail : .byWordWrapping
+
         let strokePadding = outlineWidth / 2
         let insets = UIEdgeInsets(top: 0, left: strokePadding, bottom: 0, right: strokePadding)
         let adjustedRect = rect.inset(by: insets)
 
-        let c = UIGraphicsGetCurrentContext()
-
-        c?.setLineWidth(outlineWidth)
-        c?.setLineJoin(.round)
-        c?.setTextDrawingMode(.stroke)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setLineWidth(outlineWidth)
+        context?.setLineJoin(.round)
+        context?.setTextDrawingMode(.stroke)
         self.textAlignment = align
         self.textColor = outlineColor
 
         super.drawText(in: adjustedRect)
 
-        if let shadowColor = shadowColor {
-            super.shadowColor = shadowColor
-            super.shadowOffset = shadowOffset
-            super.drawText(in: adjustedRect)
-        }
-
-        c?.setTextDrawingMode(.fill)
+        context?.setTextDrawingMode(.fill)
         self.textColor = textColor
         self.shadowOffset = CGSize(width: 0, height: 0)
         super.drawText(in: adjustedRect)
@@ -58,13 +43,12 @@ class StrokedTextLabel: UILabel {
         self.shadowOffset = shadowOffset
     }
 
-
     override var intrinsicContentSize: CGSize {
-        get {
-            var contentSize = super.intrinsicContentSize
-            contentSize.width += outlineWidth
-            return contentSize
+        var contentSize = super.intrinsicContentSize
+        if customWidth > 0 {
+            contentSize.width = customWidth
         }
+        contentSize.width += outlineWidth
+        return contentSize
     }
-
 }
