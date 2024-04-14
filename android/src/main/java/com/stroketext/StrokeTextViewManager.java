@@ -48,4 +48,9 @@ public class StrokeTextViewManager extends SimpleViewManager<View> {
   public void setFontFamily(StrokeTextView view, String fontFamily) {
     view.setFontFamily(fontFamily);
   }
+
+  @ReactProp(name = "align")
+  public void setTextAlignment(StrokeTextView view, String align) {
+    view.setTextAlignment(align);
+  }
 }
