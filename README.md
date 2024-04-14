@@ -5,7 +5,7 @@
 Allows you to add stylish text with stroke effects to your mobile applications. It is perfect for creating visually appealing text elements with outline effects.
 
 <h1 align="center">
-  <img width="450" src="docs/example.jpeg"/>
+  <img width="550" src="docs/example.jpeg"/>
 </h1>
 
 
@@ -63,6 +63,29 @@ The following table outlines the props available for the `StrokeText` component:
 | `numberOfLines` | number | Number of lines (default: `0`)                                  |
 | `ellipsis`      | number | Ellipsis (...) (default: `false`)                               |
 | `width`         | number | Text width to enable ellipsis (default: `undefined`)            |
+
+
+## Ellipsis
+
+```jsx
+<StrokeText
+    text="Lorem ipsum"
+        width={150} // +
+        ellipsis={true} // +
+        numberOfLines={1} // +
+    fontSize={32}
+    color="#FFFFFF"
+    strokeColor="#000000"
+    strokeWidth={2}
+    fontFamily="Nunito-Black"
+    align="center"
+/>
+
+```
+
+<h1 align="center">
+  <img width="450" src="docs/ellipsis.jpeg"/>
+</h1>
 
 
 ## Custom Font
