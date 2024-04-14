@@ -16,7 +16,16 @@ class StrokedTextLabel: UILabel {
         }
     }
 
+    var align: NSTextAlignment = .center {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     override func drawText(in rect: CGRect) {
+        // Enable multiline
+        self.numberOfLines = 0
+
         let shadowOffset = self.shadowOffset
         let textColor = self.textColor
 
@@ -25,7 +34,7 @@ class StrokedTextLabel: UILabel {
         c?.setLineWidth(outlineWidth)
         c?.setLineJoin(.round)
         c?.setTextDrawingMode(.stroke)
-        self.textAlignment = .center
+        self.textAlignment = align
         self.textColor = outlineColor
 
         super.drawText(in: rect)
@@ -48,8 +57,7 @@ class StrokedTextLabel: UILabel {
     override var intrinsicContentSize: CGSize {
         get {
             var contentSize = super.intrinsicContentSize
-//            contentSize.height += outlineWidth * 2
-            contentSize.width += outlineWidth * 2
+            contentSize.width += outlineWidth
             return contentSize
         }
     }
