@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -20,12 +21,15 @@ class StrokeTextView extends View {
     private int strokeColor = 0xFFFFFFFF;
     private float strokeWidth = 1;
     private String fontFamily = "sans-serif";
+    private int numberOfLines = 0;
+    private boolean ellipsis = false;
     private final TextPaint textPaint;
     private final TextPaint strokePaint;
     private Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
     private StaticLayout textLayout;
     private StaticLayout strokeLayout;
     private boolean layoutDirty = true;
+    private float customWidth = 0;
 
     public StrokeTextView(ThemedReactContext context) {
         super(context);
@@ -45,24 +49,44 @@ class StrokeTextView extends View {
             strokePaint.setTypeface(typeface);
             strokePaint.setTextSize(fontSize);
 
-            String[] lines = text.split("\n");
-            float maxLineWidth = 0;
-            for (String line : lines) {
-                float lineWidth = textPaint.measureText(line);
-                if (lineWidth > maxLineWidth) {
-                    maxLineWidth = lineWidth;
-                }
+            int width = (int) getCanvasWidth();
+            CharSequence ellipsizedText = ellipsis ? TextUtils.ellipsize(text, textPaint, width, TextUtils.TruncateAt.END) : text;
+            textLayout = new StaticLayout(ellipsizedText, textPaint, width, alignment, 1.0f, 0.0f, false);
+            if (numberOfLines > 0 && numberOfLines < textLayout.getLineCount()) {
+                int lineEnd = textLayout.getLineEnd(numberOfLines - 1);
+                ellipsizedText = ellipsizedText.subSequence(0, lineEnd);
+                textLayout = new StaticLayout(ellipsizedText, textPaint, width, alignment, 1.0f, 0.0f, false);
             }
-
-            maxLineWidth += (int) (getScaledSize(strokeWidth) / 2);
-            int width = (int) Math.ceil(maxLineWidth);
-
-            textLayout = new StaticLayout(text, textPaint, width, alignment, 1.0f, 0.0f, false);
-            strokeLayout = new StaticLayout(text, strokePaint, width, alignment, 1.0f, 0.0f, false);
+            strokeLayout = new StaticLayout(ellipsizedText, strokePaint, width, alignment, 1.0f, 0.0f, false);
 
             layoutDirty = false;
         }
     }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        layoutDirty = true;
+        ensureLayout();
+    }
+
+    private float getCanvasWidth() {
+        if (customWidth > 0) {
+            return getScaledSize(customWidth);
+        }
+
+        String[] lines = text.split("\n");
+        float maxLineWidth = 0;
+        for (String line : lines) {
+            float lineWidth = textPaint.measureText(line);
+            if (lineWidth > maxLineWidth) {
+                maxLineWidth = lineWidth;
+            }
+        }
+
+        maxLineWidth += getScaledSize(strokeWidth) / 2;
+        return maxLineWidth;
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -73,7 +97,7 @@ class StrokeTextView extends View {
         updateSize(textLayout.getWidth(), textLayout.getHeight());
     }
 
-    private float getScaledSize(float size){
+    private float getScaledSize(float size) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, size, getResources().getDisplayMetrics());
     }
 
@@ -107,7 +131,6 @@ class StrokeTextView extends View {
             invalidate();
         }
     }
-
 
     public void setTextColor(String color) {
         int parsedColor = android.graphics.Color.parseColor(color);
@@ -151,6 +174,30 @@ class StrokeTextView extends View {
         };
         if (this.alignment != newAlignment) {
             this.alignment = newAlignment;
+            layoutDirty = true;
+            invalidate();
+        }
+    }
+
+    public void setNumberOfLines(int numberOfLines) {
+        if (this.numberOfLines != numberOfLines) {
+            this.numberOfLines = numberOfLines;
+            layoutDirty = true;
+            invalidate();
+        }
+    }
+
+    public void setEllipsis(boolean ellipsis) {
+        if (this.ellipsis != ellipsis) {
+            this.ellipsis = ellipsis;
+            layoutDirty = true;
+            invalidate();
+        }
+    }
+
+    public void setCustomWidth(float width) {
+        if (!(this.customWidth == width)) {
+            this.customWidth = width;
             layoutDirty = true;
             invalidate();
         }
