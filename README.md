@@ -1,5 +1,7 @@
 # React Native Stroke/Outline Text
 
+[![npm version](https://badge.fury.io/js/@charmy.tech%2Freact-native-stroke-text.svg)](https://badge.fury.io/js/@charmy.tech%2Freact-native-stroke-text)
+
 Allows you to add stylish text with stroke effects to your mobile applications. It is perfect for creating visually appealing text elements with outline effects.
 
 <h1 align="center">
@@ -49,15 +51,18 @@ export default function Screen() {
 
 The following table outlines the props available for the `StrokeText` component:
 
-| Prop          | Type   | Description                                                     |
-|---------------|--------|-----------------------------------------------------------------|
-| `text`        | string | The text content you want to display.                           |
-| `fontSize`    | number | Size of the text font, defining how large the text will be.     |
-| `color`       | string | Color of the text, can use any valid color format.              |
-| `strokeColor` | string | Color of the stroke (outline) around the text.                  |
-| `strokeWidth` | number | Width of the stroke, determining the thickness of the outline.  |
-| `fontFamily`  | string | Font family for the text, should match available project fonts. |
-| `align`       | string | Text alignment (default: `center`)                              |
+| Prop            | Type   | Description                                                     |
+|-----------------|--------|-----------------------------------------------------------------|
+| `text`          | string | The text content you want to display.                           |
+| `fontSize`      | number | Size of the text font, defining how large the text will be.     |
+| `color`         | string | Color of the text, can use any valid color format.              |
+| `strokeColor`   | string | Color of the stroke (outline) around the text.                  |
+| `strokeWidth`   | number | Width of the stroke, determining the thickness of the outline.  |
+| `fontFamily`    | string | Font family for the text, should match available project fonts. |
+| `align`         | string | Text alignment (default: `center`)                              |
+| `numberOfLines` | number | Number of lines (default: `0`)                                  |
+| `ellipsis`      | number | Ellipsis (...) (default: `false`)                               |
+| `width`         | number | Text width to enable ellipsis (default: `undefined`)            |
 
 
 ## Custom Font
