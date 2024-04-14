@@ -49,14 +49,29 @@ export default function Screen() {
 
 The following table outlines the props available for the `StrokeText` component:
 
-| Prop          | Type   | Description                                                  |
-|---------------|--------|--------------------------------------------------------------|
-| `text`        | string | The text content you want to display.                        |
-| `fontSize`    | number | Size of the text font, defining how large the text will be.  |
-| `color`       | string | Color of the text, can use any valid color format.           |
-| `strokeColor` | string | Color of the stroke (outline) around the text.               |
-| `strokeWidth` | number | Width of the stroke, determining the thickness of the outline.|
-| `fontFamily`  | string | Font family for the text, should match available project fonts.|
+| Prop          | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| `text`        | string | The text content you want to display.                           |
+| `fontSize`    | number | Size of the text font, defining how large the text will be.     |
+| `color`       | string | Color of the text, can use any valid color format.              |
+| `strokeColor` | string | Color of the stroke (outline) around the text.                  |
+| `strokeWidth` | number | Width of the stroke, determining the thickness of the outline.  |
+| `fontFamily`  | string | Font family for the text, should match available project fonts. |
+| `align`       | string | Text alignment (default: `center`)                              |
+
+
+## Custom Font
+Create a `react-native.config.js` file in the root directory
+
+```javascript
+module.exports = {
+  project: {
+    ios: {},
+    android: {},
+  },
+  assets: ['/assets/fonts'], // or './src/assets/fonts'
+};
+```
 
 
 ## Contributing
