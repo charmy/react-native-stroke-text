@@ -14,6 +14,7 @@ class StrokedTextLabel: UILabel {
         didSet {
             if outlineWidth != oldValue {
                 updateTextInsets()
+                setNeedsDisplay()
             }
         }
     }
