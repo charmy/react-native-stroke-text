@@ -137,6 +137,7 @@ class StrokeTextView extends View {
         int parsedColor = parseColor(color);
         if (this.textColor != parsedColor) {
             this.textColor = parsedColor;
+            layoutDirty = true;
             invalidate();
         }
     }
@@ -145,6 +146,7 @@ class StrokeTextView extends View {
         int parsedColor = parseColor(color);
         if (this.strokeColor != parsedColor) {
             this.strokeColor = parsedColor;
+            layoutDirty = true;
             invalidate();
         }
     }
