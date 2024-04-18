@@ -13,8 +13,7 @@ class StrokedTextLabel: UILabel {
     private var textInsets: UIEdgeInsets = .zero
 
     public func updateTextInsets() {
-        let strokePadding = outlineWidth / 2
-        textInsets = UIEdgeInsets(top: 0, left: strokePadding, bottom: 0, right: strokePadding)
+        textInsets = UIEdgeInsets(top: outlineWidth, left: outlineWidth, bottom: outlineWidth, right: outlineWidth)
     }
 
     var outlineWidth: CGFloat = 0
@@ -54,9 +53,10 @@ class StrokedTextLabel: UILabel {
         if customWidth > 0 {
             contentSize.width = customWidth
         } else {
-            contentSize.width += (textInsets.left + textInsets.right)
+            contentSize.width += outlineWidth * 2
         }
 
+        contentSize.height += outlineWidth * 2
         return contentSize
     }
 }
