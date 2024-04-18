@@ -1,6 +1,7 @@
 package com.stroketext;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Layout;
@@ -133,17 +134,17 @@ class StrokeTextView extends View {
     }
 
     public void setTextColor(String color) {
-        int parsedColor = android.graphics.Color.parseColor(color);
+        int parsedColor = parseColor(color);
         if (this.textColor != parsedColor) {
-            this.textColor = android.graphics.Color.parseColor(color);
+            this.textColor = parsedColor;
             invalidate();
         }
     }
 
     public void setStrokeColor(String color) {
-        int parsedColor = android.graphics.Color.parseColor(color);
+        int parsedColor = parseColor(color);
         if (this.strokeColor != parsedColor) {
-            this.strokeColor = android.graphics.Color.parseColor(color);
+            this.strokeColor = parsedColor;
             invalidate();
         }
     }
@@ -201,5 +202,24 @@ class StrokeTextView extends View {
             layoutDirty = true;
             invalidate();
         }
+    }
+
+    private int parseColor(String color) {
+        if (color.startsWith("#")) {
+            return Color.parseColor(color);
+        } else if (color.startsWith("rgb")) {
+            return parseRgbColor(color);
+        }
+
+        return 0xFF000000;
+    }
+
+    private int parseRgbColor(String color) {
+        String[] parts = color.replaceAll("[rgba()\\s]", "").split(",");
+        int r = Integer.parseInt(parts[0]);
+        int g = Integer.parseInt(parts[1]);
+        int b = Integer.parseInt(parts[2]);
+        int a = parts.length > 3 ? (int) (Float.parseFloat(parts[3]) * 255) : 255;
+        return Color.argb(a, r, g, b);
     }
 }
