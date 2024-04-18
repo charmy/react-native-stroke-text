@@ -30,91 +30,132 @@ class StrokeTextView: RCTView {
 
     @objc var width: NSNumber = 0 {
         didSet {
-            self.label.customWidth = CGFloat(truncating: width)
+            if width != oldValue {
+                self.label.customWidth = CGFloat(truncating: width)
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var text: String = "" {
         didSet {
-            label.text = text
+            if text != oldValue {
+                label.text = text
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var fontSize: NSNumber = 14 {
         didSet {
-            label.font = label.font.withSize(CGFloat(truncating: fontSize))
+            if fontSize != oldValue {
+                label.font = label.font.withSize(CGFloat(truncating: fontSize))
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var color: String = "#000000" {
         didSet {
-            label.textColor = hexStringToUIColor(hexColor: color)
+            if color != oldValue {
+                label.textColor = colorStringToUIColor(colorString: color)
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var strokeColor: String = "#FFFFFF" {
         didSet {
-            label.outlineColor = hexStringToUIColor(hexColor: strokeColor)
+            if strokeColor != oldValue {
+                label.outlineColor = colorStringToUIColor(colorString: strokeColor)
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var strokeWidth: NSNumber = 1 {
         didSet {
-            label.outlineWidth = CGFloat(truncating: strokeWidth)
+            if strokeWidth != oldValue {
+                label.outlineWidth = CGFloat(truncating: strokeWidth)
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var fontFamily: String = "Helvetica" {
         didSet {
-            if let font = UIFont(name: fontFamily, size: CGFloat(truncating: fontSize)) {
-                label.font = font
+            if fontFamily != oldValue {
+                if let font = UIFont(name: fontFamily, size: CGFloat(truncating: fontSize)) {
+                    label.font = font
+                }
+                label.setNeedsDisplay()
             }
         }
     }
 
     @objc var align: String = "center" {
         didSet {
-            if align == "left" {
-                label.align = .left
-            }else if align == "right" {
-                label.align = .right
-            }else{
-                label.align = .center
+            if align != oldValue {
+                if align == "left" {
+                    label.align = .left
+                } else if align == "right" {
+                    label.align = .right
+                } else {
+                    label.align = .center
+                }
+
+                label.setNeedsDisplay()
             }
         }
     }
 
     @objc var ellipsis: Bool = false {
         didSet {
-            label.ellipsis = ellipsis
+            if ellipsis != oldValue {
+                label.ellipsis = ellipsis
+                label.setNeedsDisplay()
+            }
         }
     }
 
     @objc var numberOfLines: NSNumber = 0 {
         didSet {
-            label.numberOfLines = Int(truncating: numberOfLines)
+            if numberOfLines != oldValue {
+                label.numberOfLines = Int(truncating: numberOfLines)
+                label.setNeedsDisplay()
+            }
         }
     }
 
-    private func hexStringToUIColor(hexColor: String) -> UIColor {
-        var cString: String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    private func colorStringToUIColor(colorString: String) -> UIColor {
+        var string = colorString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
-        if cString.hasPrefix("#") {
-            cString.removeFirst()
+        if string.hasPrefix("#") {
+            if string.count == 4 {
+                string = "#" + string.dropFirst().map { "\($0)\($0)" }.joined()
+            }
+            if string.count == 7 {
+                var rgbValue: UInt64 = 0
+                Scanner(string: String(string.dropFirst())).scanHexInt64(&rgbValue)
+                return UIColor(
+                        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                        alpha: 1.0
+                )
+            }
+        } else if string.hasPrefix("RGBA") {
+            let components = string.dropFirst(5).dropLast(1).split(separator: ",").map { CGFloat(Double($0.trimmingCharacters(in: .whitespaces)) ?? 0) }
+            if components.count == 4 {
+                return UIColor(red: components[0] / 255.0, green: components[1] / 255.0, blue: components[2] / 255.0, alpha: components[3])
+            }
+        } else if string.hasPrefix("RGB") {
+            let components = string.dropFirst(4).dropLast(1).split(separator: ",").map { CGFloat(Double($0.trimmingCharacters(in: .whitespaces)) ?? 0) }
+            if components.count == 3 {
+                return UIColor(red: components[0] / 255.0, green: components[1] / 255.0, blue: components[2] / 255.0, alpha: 1.0)
+            }
         }
 
-        if cString.count != 6 {
-            return UIColor.gray
-        }
-
-        var rgbValue: UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
+        return UIColor.gray
     }
 }
