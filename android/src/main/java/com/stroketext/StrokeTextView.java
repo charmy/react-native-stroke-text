@@ -169,12 +169,16 @@ class StrokeTextView extends View {
     }
 
     public void setTextAlignment(String alignment) {
-        Layout.Alignment newAlignment = switch (alignment) {
-            case "left" -> Layout.Alignment.ALIGN_NORMAL;
-            case "right" -> Layout.Alignment.ALIGN_OPPOSITE;
-            case "center" -> Layout.Alignment.ALIGN_CENTER;
-            default -> this.alignment;
-        };
+        Layout.Alignment newAlignment;
+        if ("left".equals(alignment)) {
+            newAlignment = Layout.Alignment.ALIGN_NORMAL;
+        } else if ("right".equals(alignment)) {
+            newAlignment = Layout.Alignment.ALIGN_OPPOSITE;
+        } else if ("center".equals(alignment)) {
+            newAlignment = Layout.Alignment.ALIGN_CENTER;
+        } else {
+            newAlignment = this.alignment;
+        }
         if (this.alignment != newAlignment) {
             this.alignment = newAlignment;
             layoutDirty = true;
