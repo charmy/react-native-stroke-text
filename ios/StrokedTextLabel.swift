@@ -53,10 +53,10 @@ class StrokedTextLabel: UILabel {
         if customWidth > 0 {
             contentSize.width = customWidth
         } else {
-            contentSize.width += outlineWidth * 2
+            contentSize.width += outlineWidth
         }
 
-        contentSize.height += outlineWidth * 2
+        contentSize.height += outlineWidth
         return contentSize
     }
 }
