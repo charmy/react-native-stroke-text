@@ -45,6 +45,8 @@ class StrokeTextView extends View {
             textPaint.setTextSize(fontSize);
             textPaint.setColor(textColor);
             strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setStrokeJoin(Paint.Join.ROUND);
+            strokePaint.setStrokeCap(Paint.Cap.ROUND);
             strokePaint.setStrokeWidth(strokeWidth);
             strokePaint.setColor(strokeColor);
             strokePaint.setTypeface(typeface);
