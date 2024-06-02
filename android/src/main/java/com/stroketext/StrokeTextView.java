@@ -15,6 +15,9 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class StrokeTextView extends View {
     private String text = "";
     private float fontSize = 14;
@@ -31,6 +34,7 @@ class StrokeTextView extends View {
     private StaticLayout strokeLayout;
     private boolean layoutDirty = true;
     private float customWidth = 0;
+    private final Map<String, Typeface> fontCache = new HashMap<>();
 
     public StrokeTextView(ThemedReactContext context) {
         super(context);
@@ -40,7 +44,7 @@ class StrokeTextView extends View {
 
     private void ensureLayout() {
         if (layoutDirty) {
-            Typeface typeface = FontUtil.getFontFromAssets(getContext(), fontFamily);
+            Typeface typeface = getFont(fontFamily);
             textPaint.setTypeface(typeface);
             textPaint.setTextSize(fontSize);
             textPaint.setColor(textColor);
@@ -89,7 +93,6 @@ class StrokeTextView extends View {
         maxLineWidth += getScaledSize(strokeWidth) / 2;
         return maxLineWidth;
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -229,5 +232,15 @@ class StrokeTextView extends View {
         int b = Integer.parseInt(parts[2]);
         int a = parts.length > 3 ? (int) (Float.parseFloat(parts[3]) * 255) : 255;
         return Color.argb(a, r, g, b);
+    }
+
+    private Typeface getFont(String fontFamily) {
+        if (fontCache.containsKey(fontFamily)) {
+            return fontCache.get(fontFamily);
+        } else {
+            Typeface typeface = FontUtil.getFont(getContext(), fontFamily);
+            fontCache.put(fontFamily, typeface);
+            return typeface;
+        }
     }
 }

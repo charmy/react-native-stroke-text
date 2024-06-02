@@ -5,6 +5,8 @@ class StrokeTextView: RCTView {
     public var label: StrokedTextLabel
     weak var bridge: RCTBridge?
 
+    private var fontCache: [String: UIFont] = [:]
+
     init(bridge: RCTBridge) {
         label = StrokedTextLabel()
         self.bridge = bridge
@@ -22,7 +24,6 @@ class StrokeTextView: RCTView {
         super.layoutSubviews()
         self.bridge?.uiManager.setSize(label.intrinsicContentSize, for: self)
     }
-
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -85,9 +86,22 @@ class StrokeTextView: RCTView {
     @objc var fontFamily: String = "Helvetica" {
         didSet {
             if fontFamily != oldValue {
-                if let font = UIFont(name: fontFamily, size: CGFloat(truncating: fontSize)) {
-                    label.font = font
+                let cacheKey = "\(fontFamily)-\(fontSize)"
+                if let cachedFont = fontCache[cacheKey] {
+                    label.font = cachedFont
+                } else {
+                    let newFont: UIFont?
+                    if let reactFont = RCTFont.update(nil, withFamily: fontFamily){
+                        newFont = reactFont.withSize(CGFloat(truncating: fontSize))
+                    } else {
+                        newFont = UIFont(name: fontFamily, size: CGFloat(truncating: fontSize))
+                    }
+                    if let validFont = newFont {
+                        fontCache[cacheKey] = validFont
+                        label.font = validFont
+                    }
                 }
+
                 label.setNeedsDisplay()
             }
         }
