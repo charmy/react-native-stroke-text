@@ -2,12 +2,12 @@
 
 [![npm version](https://badge.fury.io/js/@charmy.tech%2Freact-native-stroke-text.svg)](https://badge.fury.io/js/@charmy.tech%2Freact-native-stroke-text)
 
-Allows you to add stylish text with stroke effects to your mobile applications. It is perfect for creating visually appealing text elements with outline effects.
+Allows you to add stylish text with stroke effects to your mobile applications. It is perfect for creating visually
+appealing text elements with outline effects.
 
 <h1 align="center">
   <img width="550" src="docs/example.jpeg"/>
 </h1>
-
 
 ## Installation
 
@@ -18,11 +18,13 @@ yarn add @charmy.tech/react-native-stroke-text
 ```
 
 Go to your ios folder and run:
+
 ```
 pod install
 ```
 
 ## Usage
+
 Here's a quick example to get you started with StrokeText:
 
 ```jsx
@@ -64,21 +66,20 @@ The following table outlines the props available for the `StrokeText` component:
 | `ellipsis`      | boolean | Ellipsis (...) (default: `false`)                               |
 | `width`         | number  | Text width to enable ellipsis (default: `undefined`)            |
 
-
 ## Ellipsis
 
 ```jsx
 <StrokeText
-    text="Lorem ipsum"
-        width={150} // +
-        ellipsis={true} // +
-        numberOfLines={1} // +
-    fontSize={32}
-    color="#FFFFFF"
-    strokeColor="#000000"
-    strokeWidth={2}
-    fontFamily="Nunito-Black"
-    align="center"
+  text="Lorem ipsum"
+    width={150} // +
+    ellipsis={true} // +
+    numberOfLines={1} // +
+  fontSize={32}
+  color="#FFFFFF"
+  strokeColor="#000000"
+  strokeWidth={2}
+  fontFamily="Nunito-Black"
+  align="center"
 />
 
 ```
@@ -87,8 +88,10 @@ The following table outlines the props available for the `StrokeText` component:
   <img width="450" src="docs/ellipsis.jpeg"/>
 </h1>
 
-
 ## Custom Font
+
+### Bare React Native
+
 Create a `react-native.config.js` file in the root directory
 
 ```javascript
@@ -101,9 +104,23 @@ module.exports = {
 };
 ```
 
+### Expo ([expo-font](https://docs.expo.dev/versions/latest/sdk/font/))
+
+```tsx
+import { useFonts } from "expo-font";
+import { Dosis_400Regular } from "@expo-google-fonts/dosis";
+
+
+const [fontsLoaded, fontError] = useFonts({
+  Danfo: require("./src/assets/fonts/Danfo-Regular.ttf"),
+  "Dosis-Regular": Dosis_400Regular,
+});
+```
 
 ## Contributing
+
 We welcome contributions to improve this component. Feel free to submit issues and enhancement requests.
 
 ## License
+
 Please refer to the project's license for usage rights and limitations.
