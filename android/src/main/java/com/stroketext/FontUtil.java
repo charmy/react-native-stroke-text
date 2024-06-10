@@ -3,7 +3,7 @@ package com.stroketext;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.facebook.react.common.assets.ReactFontManager;
+import com.facebook.react.views.text.ReactFontManager;
 
 import java.io.IOException;
 
