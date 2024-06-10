@@ -3,3 +3,4 @@
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTView.h>
+#import <React/RCTFont.h>
