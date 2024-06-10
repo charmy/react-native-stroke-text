@@ -17,9 +17,9 @@ npm install @charmy.tech/react-native-stroke-text
 yarn add @charmy.tech/react-native-stroke-text
 ```
 
-# android
+## Android
 min ```compileSdkVersion``` is required to be ```34```
-
+## iOS
 Go to your ios folder and run:
 
 ```
