@@ -34,6 +34,8 @@ class StrokeTextView extends View {
     private StaticLayout strokeLayout;
     private boolean layoutDirty = true;
     private float customWidth = 0;
+    private int width = 0;
+    private int height = 0;
     private final Map<String, Typeface> fontCache = new HashMap<>();
 
     public StrokeTextView(ThemedReactContext context) {
@@ -108,6 +110,11 @@ class StrokeTextView extends View {
     }
 
     private void updateSize(int width, int height) {
+        if (this.width == width && this.height == height) {
+            return;
+        }
+        this.width = width;
+        this.height = height;
         ReactContext reactContext = (ReactContext) getContext();
         reactContext.runOnNativeModulesQueueThread(
                 new Runnable() {
