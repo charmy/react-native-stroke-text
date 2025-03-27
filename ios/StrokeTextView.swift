@@ -11,7 +11,8 @@ class StrokeTextView: RCTView {
         label = StrokedTextLabel()
         self.bridge = bridge
         super.init(frame: .zero)
-
+        label.textColor = colorStringToUIColor(colorString: color)
+        label.outlineColor = colorStringToUIColor(colorString: strokeColor)
         label.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(label)
         NSLayoutConstraint.activate([
